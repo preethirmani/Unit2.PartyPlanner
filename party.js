@@ -1,6 +1,6 @@
 
-const API_URL = `https://fsa-crud-2aa9294fe819.herokuapp.com/api/2310-fsa-et-web-pt-sf-b-preethi/events`;
-//const URL = `https://fsa-crud-2aa9294fe819.herokuapp.com/api/2310-fsa-et-web-pt-sf-b/events`;
+const API_URL = `https://fsa-crud-2aa9294fe819.herokuapp.com/api/2310-fsa-et-web-pt-sf-b-preeti/events`;
+
 
 const state = {
   events : []
@@ -28,7 +28,7 @@ async function getAllEvents() {
     const events = await response.json();
     state.events = events.data;
   }catch(err) {
-    console.error(err);
+    console.log('Sorry not able to fetch all the events!');
   }
 }
 
@@ -75,7 +75,7 @@ async function createEvent(e) {
     render();
     window.alert(` Event - ${name} Created Successfully!`);
   }catch(err){
-    console.error(err);
+    console.log(`Sorry! Unable to create the event${name}`);
   }
 }
 
@@ -88,7 +88,7 @@ async function deleteEvent(e) {
   try{
   const response = await fetch(`${API_URL}/${id}`, {method: 'DELETE'});
   }catch (err){
-    console.error(err.message);
+    console.error(`Sorry event deletion is not successfull!`);
   }
   render();
 }
