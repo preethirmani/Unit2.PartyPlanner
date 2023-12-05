@@ -26,7 +26,6 @@ async function getAllEvents() {
   try{ 
     const response = await fetch(API_URL);
     const events = await response.json();
-    console.log('Length:', events.data.length);
     state.events = events.data;
   }catch(err) {
     console.error(err);
@@ -34,21 +33,27 @@ async function getAllEvents() {
 }
 
 function renderEvents() {
-  const eventCard = state.events.map(e => {
-    const deleteBtn = document.createElement('button');
+  if(state.events.length <= 0) {
     const listItem = document.createElement('li');
-    deleteBtn.innerText = 'X';
-    deleteBtn.addEventListener('click', deleteEvent);
-    deleteBtn.param = e.id;
-    listItem.innerHTML = `
-      <h3>${e.name}</h3>
-      <p>${e.description}</p>
-      <p>${e.location}</p>
-    `;
-    listItem.append(deleteBtn);
-    return listItem;
-  });
-  eventList.replaceChildren(...eventCard);
+    listItem.innerHTML = `<h3>Sorry No Events to show...</h3>`;
+    eventList.appendChild(listItem);
+  } else {
+      const eventCard = state.events.map(e => {
+      const deleteBtn = document.createElement('button');
+      const listItem = document.createElement('li');
+      deleteBtn.innerText = 'X';
+      deleteBtn.addEventListener('click', deleteEvent);
+      deleteBtn.param = e.id;
+      listItem.innerHTML = `
+        <h3>${e.name}</h3>
+        <p>${e.description}</p>
+        <p>${e.location}</p>
+      `;
+      listItem.append(deleteBtn);
+      return listItem;
+    });
+    eventList.replaceChildren(...eventCard);
+  }
 } 
 
 async function createEvent(e) {
@@ -70,7 +75,7 @@ async function createEvent(e) {
     render();
     window.alert(` Event - ${name} Created Successfully!`);
   }catch(err){
-    console.error(err.message);
+    console.error(err);
   }
 }
 
